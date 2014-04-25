@@ -42,4 +42,18 @@ public class DailyCheck {
 		}
 	}
 	
+	public boolean checkOpenDDH()
+	{
+		if (isTodayScratch())
+		{
+			//今日已刮過
+			return false;
+		}
+		else
+		{
+			//跟Server要刮獎資料,確定有要刮
+			return true;
+		}
+			
+	}
 }
