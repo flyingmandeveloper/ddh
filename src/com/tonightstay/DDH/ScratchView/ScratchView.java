@@ -253,6 +253,7 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		else
 			return false;
 
+
 	}
 	
 	public void onSDraw(Canvas canvas) {
