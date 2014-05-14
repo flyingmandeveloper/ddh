@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Debug;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 
@@ -105,4 +107,16 @@ public class DeviceTools {
         Log.d("debug", "total: "+(allocated+(totalM-freeM)));
         
     }
+	
+	public static boolean repeat_click(final View v, double sec){
+		if(!v.isClickable()) return true;
+		v.setClickable(false);
+		new Handler().postDelayed(new Runnable(){
+			@Override
+			public void run() {
+				v.setClickable(true);
+			}
+		},(long) (sec*1000));
+		return false;
+	}
 }

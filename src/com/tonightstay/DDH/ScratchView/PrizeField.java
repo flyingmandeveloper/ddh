@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Paint.Style;
 import android.graphics.PathEffect;
 import android.graphics.Rect;
@@ -22,27 +23,49 @@ public class PrizeField {
 	
 	String mMsg="";
 	
-	float filledPercent = 0.8f;
+	float filledPercent = 0.7f;
+	int mStrokeWidth = 1;
+	
+	int mTextX = 0;
+	int mTextY = 0;
 	
 	public PrizeField()
 	{
-		PrizeBG.setColor(Color.WHITE);
+		PrizeBG.setColor(Color.argb(200, 255, 255, 255));
 		WordPaint.setColor(Color.BLACK);
 		
 		LinePaint.setColor(Color.WHITE);
 		LinePaint.setStyle(Style.STROKE);
-		LinePaint.setStrokeWidth(5);
+		LinePaint.setStrokeWidth(mStrokeWidth);
 		 PathEffect effects = new DashPathEffect(
-                 new float[]{5,5,5,5}, 1);
+                 new float[]{mStrokeWidth,mStrokeWidth}, 1);
 		 LinePaint.setPathEffect(effects);
 		
+	}
+	
+	public void setStrokeWidth(int width)
+	{
+		mStrokeWidth = width;
+		LinePaint.setStrokeWidth(mStrokeWidth);
+		 PathEffect effects = new DashPathEffect(
+                 new float[]{mStrokeWidth,mStrokeWidth}, 1);
+		 LinePaint.setPathEffect(effects);
 	}
 
 	public void setRect(Rect rect)
 	{
 		if (rect!=null)
+		{
 			mPrizeRect = rect;
+			setTextPosition();
+		}
 		
+	}
+	
+	void setTextPosition()
+	{
+		mTextX = mPrizeRect.centerX() - mMsgBounds.width()/2;
+		mTextY = mPrizeRect.centerY() + mMsgBounds.height()/2;
 	}
 	
 	public int getX()
@@ -85,24 +108,27 @@ public class PrizeField {
 	{
 		WordPaint.setTextSize(textSize);
 		WordPaint.getTextBounds(mMsg, 0, mMsg.length(), mMsgBounds);
+		
+		setTextPosition();
 	}
 	
 	public void setMessage(String msg)
 	{
 		mMsg = msg;
 		WordPaint.getTextBounds(mMsg, 0, mMsg.length(), mMsgBounds);
+		
+		setTextPosition();
 	}
 	
 	public void onDrawPrize(Canvas canvas)
 	{
 		canvas.drawRect(mPrizeRect, PrizeBG);
-		canvas.drawText(mMsg, mPrizeRect.centerX() - mMsgBounds.width()
-				/ 2, mPrizeRect.centerY() + mMsgBounds.height() / 2, WordPaint);
+		canvas.drawText(mMsg, mTextX, mTextY, WordPaint);
 	}
 
 	public void onDrawLine(Canvas canvas)
 	{
-		canvas.drawRect(mPrizeRect, LinePaint);
+		canvas.drawRoundRect(new RectF(mPrizeRect),5,5, LinePaint);
 	}
 
 }

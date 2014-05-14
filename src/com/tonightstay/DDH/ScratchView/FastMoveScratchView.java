@@ -1,6 +1,7 @@
 package com.tonightstay.DDH.ScratchView;
 
 import com.example.com.tonightstay.ddh.R;
+import com.tonightstay.DDH.tools.DeviceTools;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -21,7 +23,11 @@ public class FastMoveScratchView extends  SurfaceView implements SurfaceHolder.C
 
 	Bitmap mStartBitmap1;
 	Bitmap mStartBitmap2;
+	Bitmap mStartBitmap3;
+	Bitmap mStartBitmap4;
 	Bitmap mBackgroundBitmap;
+	Bitmap mFinger0;
+	Bitmap mFinger1;
 	Paint mBgPaint = new Paint();
 	FastMoveScratchViewThread mThread;
 	double mOffY = 0;
@@ -35,12 +41,17 @@ public class FastMoveScratchView extends  SurfaceView implements SurfaceHolder.C
 	double mSlowToFastAcceleration = 0.005;
 	double mSlowDiffDistance = 0;
 	
-	final double  mFastToSlowSpeedDefault = 1.3;
+	final double  mFastToSlowSpeedDefault = 3.0;
+	final double  mFastToSlowSpeedStopDefault = 0.5;
 	double mFastToSlowOffY = 0;
 	double mFastToSlowDiffDistance = 0;
 	double mFastToSlowDuring = 0;
 	double mFastToSlowAcceleration = 0;
 	double mFastToSlowNow = 0;
+	int fingerSize = 0;
+	double swapFingerTime = 150;
+	double swapFingerDuring = 0;
+	int fingerAniIdx = 0;
 	
 	public interface OnFastMoveScratchListener
 	{
@@ -48,6 +59,12 @@ public class FastMoveScratchView extends  SurfaceView implements SurfaceHolder.C
 	};
 	
 	OnFastMoveScratchListener mOnFastMoveScratchListener;
+	
+	public void startScratch()
+	{
+		if (mThread!=null)
+			mThread.aniState = eAnimState.SlowToFast;
+	}
 	
 	public void setOnFastMoveScratchListener(OnFastMoveScratchListener listener)
 	{
@@ -81,26 +98,31 @@ public class FastMoveScratchView extends  SurfaceView implements SurfaceHolder.C
 	
 	private void init(Context context, AttributeSet attrs) 
 	{
-		setZOrderOnTop(true);
+		//setZOrderOnTop(true);
 		SurfaceHolder holder = getHolder();
 		holder.addCallback(this);
 		holder.setFormat(PixelFormat.TRANSPARENT);
 		
-		mBackgroundBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.fastmove_scratch_bg);
-		
-		mStartBitmap1 = BitmapFactory.decodeResource(getResources(),R.drawable.scratch_default_1);
-		mStartBitmap2 = BitmapFactory.decodeResource(getResources(),R.drawable.scratch_default_2);
-		
+		fingerSize = DeviceTools.getPixelFromDip(context, 64);
+		mBackgroundBitmap = ((BitmapDrawable)getResources().getDrawable(R.drawable.fastmove_scratch_bg)).getBitmap();
+		mFinger0 = ((BitmapDrawable)getResources().getDrawable(R.drawable.finger_touch0)).getBitmap();
+		mFinger1 = ((BitmapDrawable)getResources().getDrawable(R.drawable.finger_touch1)).getBitmap();
+
 		mBgPaint.setAntiAlias(true);
-		
-		
+	}
+	
+	public void setStratchTicket(Bitmap ticket1,Bitmap ticket2,Bitmap ticket3,Bitmap ticket4)
+	{
+		mStartBitmap1 = ticket1;
+		mStartBitmap2 = ticket2;
+		mStartBitmap3 = ticket3;
+		mStartBitmap4 = ticket4;
 	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent me) {
 		if (mThread == null)
 			return false;
-		
 			
 		switch(me.getAction())
 		{
@@ -108,8 +130,8 @@ public class FastMoveScratchView extends  SurfaceView implements SurfaceHolder.C
 				switch(mThread.aniState)
 				{
 				case VeryFast:
-					mFastToSlowDuring = getWidth()*2/mFastToSlowSpeedDefault;
-					mFastToSlowAcceleration = - mFastToSlowSpeedDefault/mFastToSlowDuring;
+					mFastToSlowDuring = getWidth()*2/(mFastToSlowSpeedDefault+mFastToSlowSpeedStopDefault);
+					mFastToSlowAcceleration = - (mFastToSlowSpeedDefault-mFastToSlowSpeedStopDefault)/mFastToSlowDuring;
 					mThread.aniState = eAnimState.FastToSlow;
 					break;
 				}
@@ -147,6 +169,16 @@ public class FastMoveScratchView extends  SurfaceView implements SurfaceHolder.C
 			}
 		}
 		
+	}
+	
+	public void onHoldDraw(Canvas canvas)
+	{
+
+		canvas.drawBitmap(
+				mStartBitmap1, 
+				new Rect(0,0,mStartBitmap1.getWidth(),mStartBitmap1.getHeight()),
+				new Rect(0,0,getWidth(),getHeight()),
+				mBgPaint);
 	}
 	
 	public void onSlowToFastDraw(Canvas canvas,long offsetTime) {
@@ -206,7 +238,30 @@ public class FastMoveScratchView extends  SurfaceView implements SurfaceHolder.C
 				new Rect((int)mOffY+wholeWidth,0,(int)mOffY+wholeWidth+wholeWidth,getHeight()),
 				mBgPaint);
 		
-	
+		if (fingerAniIdx%2==0)
+		{
+			canvas.drawBitmap(
+					mFinger0, 
+					new Rect(0,0,mFinger0.getWidth(),mFinger0.getHeight()),
+					new Rect(getWidth()/2-fingerSize/2,(getHeight()*2/3),getWidth()/2+fingerSize/2,(getHeight()*2/3)+fingerSize),
+					mBgPaint);
+		}
+		else
+		{
+			canvas.drawBitmap(
+					mFinger1, 
+					new Rect(0,0,mFinger1.getWidth(),mFinger1.getHeight()),
+					new Rect(getWidth()/2-fingerSize/2,(getHeight()*2/3),getWidth()/2+fingerSize/2,(getHeight()*2/3)+fingerSize),
+					mBgPaint);
+		}
+		
+		
+		swapFingerDuring+=mMillsDiffTime;
+		if (swapFingerDuring>=swapFingerTime)
+		{
+			swapFingerDuring %= swapFingerTime;
+			fingerAniIdx++;
+		}
 		
 		mOffY-=mMillsDiffTime*mSpeed;
 
@@ -238,13 +293,13 @@ public class FastMoveScratchView extends  SurfaceView implements SurfaceHolder.C
 		
 				
 		canvas.drawBitmap(
-				mStartBitmap1, 
+				mStartBitmap3, 
 				new Rect(0,0,mStartBitmap1.getWidth(),mStartBitmap1.getHeight()),
 				new Rect((int)mFastToSlowOffY,0,(int)mFastToSlowOffY+wholeWidth,getHeight()),
 				mBgPaint);
 
 		canvas.drawBitmap(
-				mStartBitmap2, 
+				mStartBitmap4, 
 				new Rect(0,0,mStartBitmap2.getWidth(),mStartBitmap2.getHeight()),
 				new Rect((int)mFastToSlowOffY+wholeWidth,0,(int)mFastToSlowOffY+wholeWidthX2,getHeight()),
 				mBgPaint);
@@ -254,6 +309,7 @@ public class FastMoveScratchView extends  SurfaceView implements SurfaceHolder.C
 
 	public enum eAnimState
 	{
+		HoldDraw,
 		SlowToFast,
 		VeryFast,
 		FastToSlow
@@ -265,7 +321,7 @@ public class FastMoveScratchView extends  SurfaceView implements SurfaceHolder.C
 		private boolean mRun = false;
 		boolean finishPick = false;
 		
-		eAnimState aniState = eAnimState.SlowToFast;
+		eAnimState aniState = eAnimState.HoldDraw;
 
 		public FastMoveScratchViewThread(SurfaceHolder surfaceHolder, FastMoveScratchView view) {
 			mSurfaceHolder = surfaceHolder;
@@ -302,6 +358,9 @@ public class FastMoveScratchView extends  SurfaceView implements SurfaceHolder.C
 					{
 						switch(aniState)
 						{
+							case HoldDraw:
+								mView.onHoldDraw(c);
+							break;
 							case SlowToFast:
 								mView.onSlowToFastDraw(c,System.nanoTime() - nowTime);
 							break;

@@ -2,4 +2,29 @@
 
     <string name="app_name">com.tonightstay.ddh</string>
     <string name="get_ddh_ticket_title">恭喜你!!</string>
+    <string name="get_ddh_ticket_msg">恭喜你獲得1次抽獎機會!!</string>
+    <string name="get_ddh_ticket_n_btn">現在不想抽!!</string>
+    <string name="get_ddh_ticket_p_btn">來試試手氣吧!!</string>
+    <string name="get_ddh_ticket_start_msg1">抽一張刮刮樂</string>
+    <string name="get_ddh_ticket_start_msg2">Lucky一下吧</string>
+    <string name="get_ddh_ticket_start_btn_text">抽一張</string>
+    
+    
+    
+    <string name="get_ddh_ticket_type_cash">現金折價劵</string>
+    <string name="get_ddh_ticket_type_free_room">免費住宿劵</string>
+    
+    <string name="get_ddh_ticket_result_title1">恭喜你!中獎了</string>
+    <string name="get_ddh_ticket_result_title2">沒有中獎!!!</string>
+    <string name="get_ddh_ticket_result_msg_keepit">請再接再勵!!!</string>
+    <string name="get_ddh_ticket_result_close">結束</string>
+    <string name="get_ddh_ticket_result_fmt">恭喜你獲得%s</string>
+    <string name="get_ddh_ticket_result_btn_takeit">領取獎項</string>
+    <string name="get_ddh_ticket_result_btn_giveup">捨棄，留給別人抽</string>
+    
+    <string name="get_ddh_ticket_free">FREE</string>
+    <string name="get_ddh_ticket_price_fmt">%s元</string>
+    <string name="get_ddh_ticket_count_fmt">%s張</string>
+    <string name="get_ddh_ticket_startdate_fmt">開始日期：%s</string>
+    <string name="get_ddh_ticket_expiredate_fmt">有效日期：%s</string>
 </resources>

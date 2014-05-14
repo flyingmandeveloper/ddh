@@ -16,7 +16,10 @@
              android:screenOrientation="portrait"
              android:theme="@android:style/Theme.Holo.Light.Dialog" 
              android:name="com.tonightstay.DDH.dialog.GetDDHTicketDialog"></activity>
-        <activity android:name="com.tonightstay.DDH.ScratchView.ScratchTicketActivity"></activity>
+        <activity 
+            android:name="com.tonightstay.DDH.ScratchView.ScratchTicketActivity">
+            
+        </activity>
         <activity android:name="com.tonightstay.DDH.main.StartActivity">
               <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

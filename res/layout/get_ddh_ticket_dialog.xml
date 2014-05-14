@@ -1,26 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/ddh_dialog_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" >
+        android:layout_gravity="center"
+        android:padding="8dp"
+        android:text="@string/get_ddh_ticket_msg"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <LinearLayout
+        android:id="@+id/ddh_dialog_btns_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="8dp" >
 
         <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
+            android:id="@+id/ddh_dialog_n_btn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/listview_button"
+            android:text="@string/get_ddh_ticket_n_btn"
+            android:textColor="#FFF"
+            android:textSize="16sp" />
 
         <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
+            android:id="@+id/ddh_dialog_p_btn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/listview_button"
+            android:text="@string/get_ddh_ticket_p_btn"
+            android:textColor="#FFF"
+            android:textSize="16sp" />
+
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

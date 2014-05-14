@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.graphics.Paint.Style;
+import android.graphics.RectF;
 import android.util.Log;
 
 public class PrizeField9x9 {
@@ -28,7 +29,7 @@ public class PrizeField9x9 {
 	int paddingLR = 0;
 	int prizeWidth = 0;
 	
-	float filledPercent = 0.8f;
+	float filledPercent = 0.7f;
 	float paddingTopBottomPercent = 0.0f;
 	float paddingLeftRightPercent = 0.0f;
 	
@@ -36,19 +37,32 @@ public class PrizeField9x9 {
 	String[] mMsg=new String[prizeMsgCount];
 	Rect[]  mMsgBounds= new Rect[prizeMsgCount];
 	
+	int mStrokeWidth = 1;
+	
 	public PrizeField9x9()
 	{
-		PrizeBG.setColor(Color.WHITE);
+		PrizeBG.setColor(Color.argb(200, 255, 255, 255));
 		WordPaint.setColor(Color.BLACK);
 		
 		LinePaint.setColor(Color.WHITE);
 		LinePaint.setStyle(Style.STROKE);
+		LinePaint.setStrokeWidth(mStrokeWidth);
+		
 		 PathEffect effects = new DashPathEffect(
-                 new float[]{5,5,5,5}, 1);
+                 new float[]{mStrokeWidth,mStrokeWidth}, 1);
 		 LinePaint.setPathEffect(effects);
 		 
 		for (int i=0;i<prizeMsgCount;++i)
 			mMsgBounds[i] = new Rect(0,0,0,0);
+	}
+	
+	public void setStrokeWidth(int width)
+	{
+		mStrokeWidth = width;
+		LinePaint.setStrokeWidth(mStrokeWidth);
+		 PathEffect effects = new DashPathEffect(
+                 new float[]{mStrokeWidth,mStrokeWidth}, 1);
+		 LinePaint.setPathEffect(effects);
 	}
 
 	public void setRect(Rect rect)
@@ -61,7 +75,7 @@ public class PrizeField9x9 {
 			prizeHeight =(int)((mPrizeRect.height() - (prizeRowCount+1)*paddingTB)/prizeRowCount);
 			paddingLR = (int) (mPrizeRect.width()*paddingLeftRightPercent);
 			prizeWidth =(int)((mPrizeRect.width() - (prizeColCount+1)*paddingLR)/prizeRowCount);
-			
+			setTextPosition();
 		}
 	}
 	
@@ -147,6 +161,8 @@ public class PrizeField9x9 {
 				WordPaint.getTextBounds(msg, 0, msg.length(), testWordsBounds);
 		}
 		
+		setTextPosition();
+		
 	}
 
 	public void setMessage(String [] arMsg)
@@ -165,6 +181,28 @@ public class PrizeField9x9 {
 				if (msg!=null) 
 					WordPaint.getTextBounds(msg, 0, msg.length(), testWordsBounds);
 			}
+			
+			setTextPosition();
+		}
+	}
+	
+	int[] mTextX=new int[prizeMsgCount];
+	int[] mTextY=new int[prizeMsgCount];
+	
+	void setTextPosition()
+	{
+		Rect msgBounds = null;
+		int msgIdx =0;
+		
+		for (int y=0;y<prizeRowCount;++y)
+		{
+			for (int x=0;x<prizeColCount;++x)
+			{
+				msgBounds = mMsgBounds[msgIdx];
+				mTextX[msgIdx] = mPrizeRect.left+ (x+1)*paddingLR+prizeWidth*x+prizeWidth/2 - msgBounds.width()/ 2;
+				mTextY[msgIdx] = mPrizeRect.top+ (y+1)*paddingTB+prizeHeight*y+prizeHeight/2 + msgBounds.height() / 2;
+				msgIdx++;
+			}
 		}
 	}
 	
@@ -182,8 +220,7 @@ public class PrizeField9x9 {
 				msg = mMsg[msgIdx];
 				msgBounds = mMsgBounds[msgIdx];
 				
-				canvas.drawText(msg,mPrizeRect.left+ (x+1)*paddingLR+prizeWidth*x+prizeWidth/2 - msgBounds.width()
-					/ 2,mPrizeRect.top+ (y+1)*paddingTB+prizeHeight*y+prizeHeight/2 + msgBounds.height() / 2, WordPaint);
+				canvas.drawText(msg,mTextX[msgIdx],mTextY[msgIdx], WordPaint);
 				
 				msgIdx++;
 			}
@@ -192,7 +229,7 @@ public class PrizeField9x9 {
 	
 	public void onDrawLine(Canvas canvas)
 	{
-		canvas.drawRect(mPrizeRect, LinePaint);
+		canvas.drawRoundRect(new RectF(mPrizeRect),5,5, LinePaint);
 	}
 
 

@@ -3,14 +3,175 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.tonightstay.DDH.ScratchView.ScratchView
-        android:id="@+id/ScratchView"
+    <RelativeLayout
+        android:id="@+id/StartPage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/ddh_start_msg_bg_color"
+        android:orientation="vertical"
+        android:visibility="visible" >
 
-    <com.tonightstay.DDH.ScratchView.FastMoveScratchView
-        android:id="@+id/FastMoveScratchView"
+        <TextView
+            android:id="@+id/msg1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/get_ddh_ticket_start_msg1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/ddh_start_msg_color" />
+
+        <TextView
+            android:id="@+id/msg2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/msg1"
+            android:gravity="center"
+            android:text="@string/get_ddh_ticket_start_msg2"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/ddh_start_msg_color" />
+
+        <Button
+            android:id="@+id/start_scratch_btn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_below="@+id/msg2"
+            android:layout_margin="8dp"
+            android:background="@drawable/listview_button"
+            android:text="@string/get_ddh_ticket_start_btn_text"
+            android:textColor="@color/button_text" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/scratch_result_getit"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/ddh_start_msg_bg_color"
+        android:visibility="invisible" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/result_msg1"
+            android:layout_centerHorizontal="true"
+            android:text="@string/get_ddh_ticket_result_title1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/ddh_result_title_color" />
+
+        <TextView
+            android:id="@+id/result_msg1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/result_msg2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="test"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/ddh_result_title_color" />
+        
+        <TextView
+            android:id="@+id/result_msg2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/result_msg3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="test2"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/ddh_result_title_color" />
+        <TextView
+            android:id="@+id/result_msg3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/result_msg4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="test2"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/ddh_result_title_color" />
+        <TextView
+            android:id="@+id/result_msg4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/giveup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="test2"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/ddh_result_title_color" />
+
+        <Button
+            android:id="@+id/giveup"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_above="@+id/takeit"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/listview_button"
+            android:text="@string/get_ddh_ticket_result_btn_giveup"
+            android:textColor="@color/button_text" />
+
+        <Button
+            android:id="@+id/takeit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/listview_button"
+            android:text="@string/get_ddh_ticket_result_btn_takeit"
+            android:textColor="@color/button_text" />
+
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/scratch_result_nothing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ddh_start_msg_bg_color"
+        android:visibility="visible" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/result_msg4"
+            android:layout_centerHorizontal="true"
+            android:text="@string/get_ddh_ticket_result_title2"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/ddh_result_title_color" />
+
+        <TextView
+            android:id="@+id/result_msg4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ddh_close"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="@string/get_ddh_ticket_result_msg_keepit"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/ddh_result_title_color" />
+        
+        <Button
+            android:id="@+id/ddh_close"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/listview_button"
+            android:text="@string/get_ddh_ticket_result_close"
+            android:textColor="@color/button_text" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/scratch_exit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:src="@drawable/ddh_close" />
 
 </FrameLayout>

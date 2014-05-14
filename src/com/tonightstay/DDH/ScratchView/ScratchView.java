@@ -1,15 +1,18 @@
 package com.tonightstay.DDH.ScratchView;
 
+import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.example.com.tonightstay.ddh.R;
 import com.tonightstay.DDH.ScratchView.FastMoveScratchView.OnFastMoveScratchListener;
+import com.tonightstay.DDH.tools.DeviceTools;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
@@ -23,20 +26,22 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 	// default value constants
-	private final int DEFAULT_REVEAL_SIZE = 60;
+	private final int DEFAULT_REVEAL_SIZE = 20;
 
 	Paint bgPaint = new Paint();
 	Paint coverPaint = new Paint();
 	Paint maskPaint = new Paint();
 	
 	
+	ArrayList<Point> points = new ArrayList<Point>();
+	
 	private Context mContext;
 	private WScratchViewThread mThread;
 
-	private Paint mOverlayPaint;
 	private int mRevealSize;
 	private boolean mIsAntiAlias = false;
 	private Path path = new Path();
@@ -86,6 +91,10 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 	int prize3OffY = 0;
 	
 	boolean mCanShowPrize = false;
+	boolean mShowScratchCover = true;
+	
+	boolean mDrawLine = false;
+	int delayShowAllPrize = 500;
 	
 	public interface OnFilledPercentUpdateListener
 	{
@@ -99,22 +108,6 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		mOnFilledPercentUpdateListener = listener;
 	}
 	
-//	private Handler FilledPercentUpdateHandler =  new Handler()
-//	{
-//		@Override
-//		 public void handleMessage(Message msg) 
-//		{
-//		  super.handleMessage(msg);
-//		  String MsgString = (String)msg.obj;
-//		  if (MsgString.equals("Update"))
-//		  {
-//			  
-//			 if (mOnFilledPercentUpdateListener!=null)
-//				 mOnFilledPercentUpdateListener.onShowAllPrize();
-//		  } 
-//		}
-//	};
-	
 	public ScratchView(Context ctx, AttributeSet attrs) {
 		super(ctx, attrs);
 		init(ctx, attrs);
@@ -125,30 +118,34 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		init(context, null);
 	}
 
-	boolean touth = false;
 	private void init(Context context, AttributeSet attrs) {
+
 		mContext = context;
-
-		mRevealSize = DEFAULT_REVEAL_SIZE;
-
+		mRevealSize = DeviceTools.getPixelFromDip(context, DEFAULT_REVEAL_SIZE);
+		
 		SurfaceHolder holder = getHolder();
 		holder.addCallback(this);
 		holder.setFormat(PixelFormat.TRANSPARENT);
-
-		mOverlayPaint = new Paint();
-		mOverlayPaint.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
-		mOverlayPaint.setStyle(Paint.Style.STROKE);
-		mOverlayPaint.setStrokeCap(Paint.Cap.ROUND);
-		mOverlayPaint.setStrokeJoin(Paint.Join.ROUND);
-		
-		maskPaint.setStyle(Paint.Style.STROKE);
-		maskPaint.setStrokeCap(Paint.Cap.ROUND);
-		maskPaint.setStrokeJoin(Paint.Join.ROUND);
-		maskPaint.setAntiAlias(mIsAntiAlias);
-		maskPaint.setStrokeWidth(mRevealSize);
-
+		if (mDrawLine)
+		{
+			maskPaint.setAntiAlias(mIsAntiAlias);
+			maskPaint.setStrokeWidth(mRevealSize);
+		}
+		else
+		{
+			maskPaint.setStyle(Paint.Style.STROKE);
+			maskPaint.setStrokeCap(Paint.Cap.ROUND);
+			maskPaint.setStrokeJoin(Paint.Join.ROUND);
+			maskPaint.setAntiAlias(mIsAntiAlias);
+			maskPaint.setStrokeWidth(mRevealSize);
+		}
 		bgPaint.setAntiAlias(true);
-		mIconBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.scratch_default_2);
+		
+	}
+	
+	public void setScratchImage(Bitmap scratchImg)
+	{
+		mIconBitmap = scratchImg;
 	}
 	
 	public void setPrize1Rect(Rect rect)
@@ -203,7 +200,17 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		mPrize3.setTextSize(textSize);
 	}
 	
-
+	public void setStrokeWidth(int width)
+	{
+		mPrize1.setStrokeWidth(width);
+		mPrize2.setStrokeWidth(width);
+		mPrize3.setStrokeWidth(width);
+	}
+	
+	public void setShowScratchCover(boolean b)
+	{
+		mShowScratchCover = b;
+	}
 	
 	public boolean countPercentOfFilled(int prize1ShowPercent,float prize2ShowPercent,float prize3ShowPercent)
 	{
@@ -245,7 +252,7 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		
 		float sumOfCount =countOfCheck*countOfCheck;
-		Log.e("debug","p1("+(100*((float)countP1/sumOfCount))+") p2("+(100*((float)countP2/sumOfCount))+") p3("+(100*((float)countP3/sumOfCount))+")");
+
 		if (100*((float)countP1/sumOfCount)>=prize1ShowPercent &&
 			100*((float)countP2/sumOfCount)>=prize2ShowPercent &&
 			100*((float)countP3/sumOfCount)>=prize3ShowPercent)
@@ -268,24 +275,42 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		mPrize3.onDrawPrize(canvas);
 		
 
+		
 		maskPaint.setXfermode(new PorterDuffXfermode(Mode.DST_OUT));
 
-		mCoverCanvas.drawPath(path, maskPaint);
-
+		if (mDrawLine)
+		{
+			for (Point point : points)
+				point.draw(mCoverCanvas, maskPaint);	
+		}
+		else
+		{
+			mCoverCanvas.drawPath(path, maskPaint);			
+		}
+	
 
 		maskPaint.setXfermode(null);
 
-		canvas.drawBitmap(mCoverBitmap, new Rect(0, 0, mCoverBitmap.getWidth(),
-				mCoverBitmap.getHeight()), new Rect(0, 0, getWidth(),
-				getHeight()), bgPaint);
+		if (mShowScratchCover)
+			canvas.drawBitmap(mCoverBitmap, 
+					new Rect(0, 0, mCoverBitmap.getWidth(),	mCoverBitmap.getHeight()), 
+					new Rect(0, 0, getWidth(),
+					getHeight()), bgPaint);
 
 		mPrize1.onDrawLine(canvas);
 		mPrize2.onDrawLine(canvas);
 		mPrize3.onDrawLine(canvas);
 
-		if (pathCount>15)
-			clearPath();
-
+		if (mDrawLine)
+		{
+			if (points.size()>15)
+				points.clear();
+		}
+		else
+		{
+			if (pathCount>15)
+				clearPath();
+		}
 	}
 	
 
@@ -296,48 +321,134 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		pathCount = 0;
 	}
 
+
 	
+	Handler mShowAllPrizeHandler = new Handler();
+	Runnable mShowAllPrizeRunnable;
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent me) {
 		if (mThread == null)
 			return false;
 
-		touth = true;
-
 		lock.lock();
 		try{
 			
-			switch(me.getAction()){
-			case MotionEvent.ACTION_DOWN:
-				path = new Path();
-				path.moveTo(me.getX(), me.getY());
-				pathCount++;
-				mScratchStart = true;
-				mThread.mCountScratchPercent = true;
-			    break;
-			case MotionEvent.ACTION_MOVE:
-				if(mScratchStart){
-					path.lineTo(me.getX(), me.getY());
-					pathCount++;
+			if (mDrawLine)
+			{
+				if(me.getAction() == MotionEvent.ACTION_MOVE) {
+					
+					if (mShowAllPrizeRunnable!=null)
+					{
+						mShowAllPrizeHandler.removeCallbacks(mShowAllPrizeRunnable);
+						mShowAllPrizeRunnable = null;
+					}
+					
 					mThread.mCountScratchPercent = true;
-				}else{
-					mScratchStart = true;
+					Point point = null;
+					if (points.size() == 0)
+						point = new Point(me.getX(), me.getY(), mRevealSize/2);
+					else
+						point = new FriendlyPoint(me.getX(), me.getY(), points.get(points.size() - 1), mRevealSize/2);
+
+					points.add(point);	
+				} else if (me.getAction() == MotionEvent.ACTION_DOWN) {
+					
+					if (mShowAllPrizeRunnable!=null)
+					{
+						mShowAllPrizeHandler.removeCallbacks(mShowAllPrizeRunnable);
+						mShowAllPrizeRunnable = null;
+					}
+					
+					mThread.mCountScratchPercent = true;
+					Point point = null;
+					point = new Point(me.getX(), me.getY(), mRevealSize/2);
+
+					points.add(point);	
+				} else 
+				{
+					if (mCanShowPrize)
+					{
+						if (mShowAllPrizeRunnable == null)
+						{
+							mShowAllPrizeRunnable = new Runnable() {
+								@Override
+								public void run() {
+									 if (mOnFilledPercentUpdateListener!=null)
+										 mOnFilledPercentUpdateListener.onShowAllPrize();
+									 points.clear();
+									 mScratchStart = false;
+								}
+							};
+							
+							mShowAllPrizeHandler.postDelayed(mShowAllPrizeRunnable, 1000);
+						}
+						
+
+					}
+				}
+			}
+			else
+			{
+			
+				switch(me.getAction()){
+				case MotionEvent.ACTION_DOWN:
+
+					if (mShowAllPrizeRunnable!=null)
+					{
+						mShowAllPrizeHandler.removeCallbacks(mShowAllPrizeRunnable);
+						mShowAllPrizeRunnable = null;
+					}
+					
+					path = new Path();
 					path.moveTo(me.getX(), me.getY());
 					pathCount++;
+					mScratchStart = true;
 					mThread.mCountScratchPercent = true;
+				    break;
+				case MotionEvent.ACTION_MOVE:
+
+					if (mShowAllPrizeRunnable!=null)
+					{
+						mShowAllPrizeHandler.removeCallbacks(mShowAllPrizeRunnable);
+						mShowAllPrizeRunnable = null;
+					}
+					
+					if(mScratchStart){
+						path.lineTo(me.getX(), me.getY());
+						pathCount++;
+						mThread.mCountScratchPercent = true;
+					}else{
+						mScratchStart = true;
+						path.moveTo(me.getX(), me.getY());
+						pathCount++;
+						mThread.mCountScratchPercent = true;
+					}
+					break;
+				case MotionEvent.ACTION_UP:
+				default:
+					clearPath();
+					
+					if (mCanShowPrize)
+					{
+						if (mShowAllPrizeRunnable == null)
+						{
+							mShowAllPrizeRunnable = new Runnable() {
+								@Override
+								public void run() {
+									 if (mOnFilledPercentUpdateListener!=null)
+										 mOnFilledPercentUpdateListener.onShowAllPrize();
+									 points.clear();
+									 mScratchStart = false;
+								}
+							};
+							
+							mShowAllPrizeHandler.postDelayed(mShowAllPrizeRunnable, delayShowAllPrize);
+						}
+	
+					}
+					break;
 				}
-				break;
-			case MotionEvent.ACTION_UP:
-			default:
-				clearPath();
-				
-				if (mCanShowPrize)
-				{
-					 if (mOnFilledPercentUpdateListener!=null)
-						 mOnFilledPercentUpdateListener.onShowAllPrize();
-				}
-				break;
 			}
 		}
 		finally
@@ -345,8 +456,7 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 			lock.unlock();
 		}
 
-			touth = false;
-			return true;
+		return true;
 		
 	}
 
@@ -357,8 +467,8 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 
 		mCoverBitmap = Bitmap.createBitmap(getWidth(), getHeight(),Bitmap.Config.ARGB_4444);
 
-		coverImageW = getWidth();
-		coverImageH = getHeight();
+		coverImageW = mCoverBitmap.getWidth();
+		coverImageH = mCoverBitmap.getHeight();
 		
 		mCoverCanvas = new Canvas(mCoverBitmap);
 		
@@ -393,7 +503,7 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 
 	}
 	Lock lock = new ReentrantLock();  
-	
+
 	class WScratchViewThread extends Thread {
 		private SurfaceHolder mSurfaceHolder;
 		private ScratchView mView;
@@ -436,27 +546,19 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 					
 					if (mCountScratchPercent == true)
 					{
-					
-						
 						mCountScratchPercent = false;
-						
-						
-
 						if (countPercentOfFilled(40,40,60))
 						{
 							mCanShowPrize = true;
-							
 						}
-						
 					}
 					
 					sleepTime = 33 -(System.currentTimeMillis() - startTime);
 					if (sleepTime<0L)
 						sleepTime = 0L;
 					
-				
+	
 					this.sleep(sleepTime);
-
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
