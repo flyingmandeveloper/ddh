@@ -1,17 +1,19 @@
 <resources>
 
     <string name="app_name">com.tonightstay.ddh</string>
-    <string name="get_ddh_ticket_title">恭喜你!!</string>
-    <string name="get_ddh_ticket_msg">恭喜你獲得1次抽獎機會!!</string>
-    <string name="get_ddh_ticket_n_btn">現在不想抽!!</string>
-    <string name="get_ddh_ticket_p_btn">來試試手氣吧!!</string>
+    <string name="get_ddh_ticket_title">免費住宿刮刮樂</string>
+    <string name="get_ddh_ticket_msg">每日限用一次!!</string>
+    <string name="get_ddh_ticket_n_btn">現在不想抽</string>
+    <string name="get_ddh_ticket_p_btn">來試試手氣吧</string>
     <string name="get_ddh_ticket_start_msg1">抽一張刮刮樂</string>
     <string name="get_ddh_ticket_start_msg2">Lucky一下吧</string>
     <string name="get_ddh_ticket_start_btn_text">抽一張</string>
+    <string name="get_ddh_ticket_rule">中獎條件為上圖出現三個相同圖案</string>
     
+    <string name="ddh_cash_title" formatted="false">%s NT %d</string>
+    <string name="ddh_free_title" formatted="false">%s %d 張</string>
     
-    
-    <string name="get_ddh_ticket_type_cash">現金折價劵</string>
+    <string name="get_ddh_ticket_type_cash">現金抵用券</string>
     <string name="get_ddh_ticket_type_free_room">免費住宿劵</string>
     
     <string name="get_ddh_ticket_result_title1">恭喜你!中獎了</string>

@@ -44,6 +44,40 @@
             android:textColor="@color/button_text" />
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/ddh_rule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/ddh_rule_bg_color"
+        android:text="@string/get_ddh_ticket_rule"
+        android:textAppearance="?android:attr/textAppearance"
+        android:textColor="@color/ddh_result_title_color" />
+
+    <LinearLayout
+        android:id="@+id/infolayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/infoLang1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/infoLang2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/scratch_result_getit"
         android:layout_width="match_parent"
@@ -70,7 +104,7 @@
             android:text="test"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/ddh_result_title_color" />
-        
+
         <TextView
             android:id="@+id/result_msg2"
             android:layout_width="wrap_content"
@@ -81,6 +115,7 @@
             android:text="test2"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/ddh_result_title_color" />
+
         <TextView
             android:id="@+id/result_msg3"
             android:layout_width="wrap_content"
@@ -91,6 +126,7 @@
             android:text="test2"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/ddh_result_title_color" />
+
         <TextView
             android:id="@+id/result_msg4"
             android:layout_width="wrap_content"
@@ -122,9 +158,8 @@
             android:background="@drawable/listview_button"
             android:text="@string/get_ddh_ticket_result_btn_takeit"
             android:textColor="@color/button_text" />
-
     </RelativeLayout>
-    
+
     <RelativeLayout
         android:id="@+id/scratch_result_nothing"
         android:layout_width="match_parent"
@@ -151,7 +186,7 @@
             android:text="@string/get_ddh_ticket_result_msg_keepit"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/ddh_result_title_color" />
-        
+
         <Button
             android:id="@+id/ddh_close"
             android:layout_width="match_parent"
@@ -162,7 +197,6 @@
             android:background="@drawable/listview_button"
             android:text="@string/get_ddh_ticket_result_close"
             android:textColor="@color/button_text" />
-
     </RelativeLayout>
 
     <ImageView

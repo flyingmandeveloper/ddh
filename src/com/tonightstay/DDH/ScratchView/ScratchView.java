@@ -1,18 +1,16 @@
 package com.tonightstay.DDH.ScratchView;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.example.com.tonightstay.ddh.R;
-import com.tonightstay.DDH.ScratchView.FastMoveScratchView.OnFastMoveScratchListener;
-import com.tonightstay.DDH.tools.DeviceTools;
-
+import flyingman.utility.DeviceTool.DeviceTools;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
@@ -20,13 +18,11 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.PorterDuff.Mode;
 import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 	// default value constants
@@ -39,7 +35,6 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	ArrayList<Point> points = new ArrayList<Point>();
 	
-	private Context mContext;
 	private WScratchViewThread mThread;
 
 	private int mRevealSize;
@@ -49,7 +44,8 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private boolean mScratchStart = false;
 
-	Bitmap mIconBitmap;
+	Bitmap mBGBitmap;
+	Bitmap mLogoBitmap;
 	Bitmap mCoverBitmap = null;
 	Canvas mCoverCanvas;
 
@@ -61,7 +57,10 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	PrizeField mPrize1 = new PrizeField();
 	PrizeField mPrize2 = new PrizeField();
-	PrizeField9x9 mPrize3 = new PrizeField9x9();
+	//PrizeField9x9 mPrize3 = new PrizeField9x9();
+	PrizeField9x9Image mPrize3 = new PrizeField9x9Image();
+	
+	
 	
 	int countOfCheck = 5;
 	int chkX =0;
@@ -96,6 +95,9 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 	boolean mDrawLine = false;
 	int delayShowAllPrize = 500;
 	
+	int mLogoOffsetX = 0;
+	int mLogoOffsetY = 0;
+	
 	public interface OnFilledPercentUpdateListener
 	{
 		public void onShowAllPrize();
@@ -117,10 +119,14 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		super(context);
 		init(context, null);
 	}
+	
+	public boolean isCoverBitmapNull()
+	{
+	    return mCoverBitmap == null;
+	}
 
 	private void init(Context context, AttributeSet attrs) {
-
-		mContext = context;
+		
 		mRevealSize = DeviceTools.getPixelFromDip(context, DEFAULT_REVEAL_SIZE);
 		
 		SurfaceHolder holder = getHolder();
@@ -143,9 +149,12 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		
 	}
 	
-	public void setScratchImage(Bitmap scratchImg)
+	public void setScratchImage(int offSetX,int offSetY,Bitmap logoImg,Bitmap scratchImg)
 	{
-		mIconBitmap = scratchImg;
+		mLogoOffsetX = offSetX;
+		mLogoOffsetY = offSetY;
+		mLogoBitmap = logoImg;
+		mBGBitmap = scratchImg;
 	}
 	
 	public void setPrize1Rect(Rect rect)
@@ -172,9 +181,9 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		prize2OffY = prize2GridH/2;
 	}
 	
-	public void setPrize3Rect(Rect rect)
+	public void setPrize3Rect(Rect rect,int imgSize)
 	{
-		mPrize3.setRect(rect);
+		mPrize3.setRect(rect,imgSize);
 		
 		prize3X = mPrize2.getX();
 		prize3Y = mPrize2.getY();
@@ -184,6 +193,8 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		prize3OffY = prize3GridH/2;
 	}
 	
+
+	/*
 	public void setPrizeMessage(String prize1,String prize2,String []prize3)
 	{
 		mPrize1.setMessage(prize1);
@@ -198,6 +209,22 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		mPrize1.setTextSize(textSize);
 		mPrize2.setTextSize(textSize);
 		mPrize3.setTextSize(textSize);
+	}
+	*/
+	
+	public void setPrizeMessage(String prize1,String prize2,Bitmap []prize3)
+	{
+		mPrize1.setMessage(prize1);
+		int textSize = mPrize1.testTextSize();
+		
+		mPrize2.setMessage(prize2);
+		textSize =Math.min(mPrize2.testTextSize(), textSize);
+		
+		mPrize3.setMessage(prize3);
+		
+		mPrize1.setTextSize(textSize);
+		mPrize2.setTextSize(textSize);
+		
 	}
 	
 	public void setStrokeWidth(int width)
@@ -265,9 +292,19 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public void onSDraw(Canvas canvas) {
 
-		canvas.drawBitmap(mIconBitmap, new Rect(0, 0, mIconBitmap.getWidth(),
-				mIconBitmap.getHeight()), new Rect(0, 0, getWidth(),
-				getHeight()), bgPaint);
+		
+		if (mCoverCanvas == null)
+			return;
+		
+		canvas.drawBitmap(mBGBitmap, 
+				new Rect(0, 0, mBGBitmap.getWidth(),mBGBitmap.getHeight()), 
+				new Rect(0, 0, getWidth(),	getHeight()), bgPaint);
+		
+		canvas.drawBitmap(mLogoBitmap, 
+				new Rect(0, 0, mLogoBitmap.getWidth(), mLogoBitmap.getHeight()), 
+				new Rect(mLogoOffsetX, mLogoOffsetY,mLogoOffsetX+ mLogoBitmap.getWidth(), mLogoBitmap.getHeight()+mLogoOffsetY), bgPaint);
+		
+		
 		
 
 		mPrize1.onDrawPrize(canvas);
@@ -460,12 +497,16 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		
 	}
 
-	
-
 	@Override
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
-
-		mCoverBitmap = Bitmap.createBitmap(getWidth(), getHeight(),Bitmap.Config.ARGB_4444);
+		try {
+			mCoverBitmap = Bitmap.createBitmap(getWidth(), getHeight(),Bitmap.Config.ARGB_8888);	
+		} catch (OutOfMemoryError err) {
+			Log.e("debug","Bitmap.createBitmap mCoverBitmap == null : "+err.toString());
+			mCoverBitmap = null;
+			return;
+		}
+		
 
 		coverImageW = mCoverBitmap.getWidth();
 		coverImageH = mCoverBitmap.getHeight();
@@ -474,10 +515,14 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 		
 	
 	    mCoverCanvas.drawBitmap(
-					mIconBitmap,
-					new Rect(0,0,mIconBitmap.getWidth(),mIconBitmap.getHeight()),
+	    		mBGBitmap,
+					new Rect(0,0,mBGBitmap.getWidth(),mBGBitmap.getHeight()),
 					new Rect(0,0,getWidth(),getHeight()),
 					coverPaint);
+	    
+	    mCoverCanvas.drawBitmap(mLogoBitmap, 
+	    		new Rect(0, 0, mLogoBitmap.getWidth(), mLogoBitmap.getHeight()), 
+	    		new Rect(mLogoOffsetX, mLogoOffsetY,mLogoOffsetX+ mLogoBitmap.getWidth(), mLogoBitmap.getHeight()+mLogoOffsetY), bgPaint);
 	}
 
 	@Override
@@ -492,6 +537,10 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
 	public void surfaceDestroyed(SurfaceHolder arg0) {
 		boolean retry = true;
 		mThread.setRunning(false);
+		
+		if (mCoverBitmap!=null)
+			mCoverBitmap.recycle();
+		
 		while (retry) {
 			try {
 				mThread.join();

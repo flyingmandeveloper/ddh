@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ddh_info_lang1">
+        <item>台灣 台北 101</item>
+        <item>土耳其 安塔利雅飯店</item>
+        <item>美國 威革度假村</item>
+        <item>智利 魔山飯店</item>
+        <item>秘魯 馬丘比丘</item>
+        <item>巴黎 香格里拉大飯店</item>
+        <item>杜拜 帆船酒店</item>
+        <item>莫斯科 雷迪森飯店</item>
+        <item>中國廣西 勝地度假山莊</item>
+        <item>古巴 古巴聖地亞哥</item>
+    </string-array>
+    <string-array name="ddh_info_lang2">
+        <item>Taiwan - Taipei 101</item>
+        <item>Turky - Venezia Palace Deluxe Resort Hotel</item>
+        <item>United States - Wigwam Resort</item>
+        <item>Chile - Montana Magica Lodge</item>
+        <item>Peru - Machu Picchu</item>
+        <item>Paris - Shangri-La</item>
+        <item>Dubai - Burj Al Arab</item>
+        <item>Moscow - Flotilla Radisson Royal</item>
+        <item>China - Yangshuo Mountain Retreat</item>
+        <item>Cuba - Melia Santiago de Cuba</item>
+    </string-array>
+</resources>
