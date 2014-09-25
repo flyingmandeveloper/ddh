@@ -47,13 +47,13 @@ public class PrizeField9x9Image {
 		PrizeBG.setColor(Color.argb(200, 255, 255, 255));
 		WordPaint.setColor(Color.BLACK);
 		
-		LinePaint.setColor(Color.WHITE);
+		LinePaint.setColor(Color.BLACK);
 		LinePaint.setStyle(Style.STROKE);
 		LinePaint.setStrokeWidth(mStrokeWidth);
 		
-		 PathEffect effects = new DashPathEffect(
-                 new float[]{mStrokeWidth,mStrokeWidth}, 1);
-		 LinePaint.setPathEffect(effects);
+//		 PathEffect effects = new DashPathEffect(
+//                 new float[]{mStrokeWidth,mStrokeWidth}, 1);
+//		 LinePaint.setPathEffect(effects);
 		 
 	
 	}
@@ -62,9 +62,9 @@ public class PrizeField9x9Image {
 	{
 		mStrokeWidth = width;
 		LinePaint.setStrokeWidth(mStrokeWidth);
-		 PathEffect effects = new DashPathEffect(
-                 new float[]{mStrokeWidth,mStrokeWidth}, 1);
-		 LinePaint.setPathEffect(effects);
+//		 PathEffect effects = new DashPathEffect(
+//                 new float[]{mStrokeWidth,mStrokeWidth}, 1);
+//		 LinePaint.setPathEffect(effects);
 	}
 
 	public void setRect(Rect rect,int imgSize)
@@ -147,7 +147,8 @@ public class PrizeField9x9Image {
 				
 				imgX = mTextX[msgIdx];
 				imgY = mTextY[msgIdx];
-				canvas.drawBitmap(img, new Rect(0, 0, mImageSize, mImageSize), new Rect(imgX, imgY,imgX+ mImageSize, imgY+mImageSize), WordPaint);
+				if (img!=null && img.isRecycled() == false)
+				    canvas.drawBitmap(img, new Rect(0, 0, mImageSize, mImageSize), new Rect(imgX, imgY,imgX+ mImageSize, imgY+mImageSize), WordPaint);
 				msgIdx++;
 			}
 		}
@@ -155,7 +156,7 @@ public class PrizeField9x9Image {
 	
 	public void onDrawLine(Canvas canvas)
 	{
-		canvas.drawRoundRect(new RectF(mPrizeRect),5,5, LinePaint);
+		//canvas.drawRoundRect(new RectF(mPrizeRect),5,5, LinePaint);
 	}
 
 

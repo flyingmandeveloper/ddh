@@ -5,7 +5,8 @@
     <color name="text_orange">#e67257</color>
     <color name="selected">#fff33fff</color>
 	<color name="focused">#ffff44ff</color>
-	<color name="ddh_start_msg_bg_color">#A000</color>
+	<color name="ddh_start_msg_bg_color">#C000</color>
+	
 	<color name="ddh_start_msg_color">#FFF</color>
 	<color name="ddh_result_title_color">#FFF</color>
 	<color name="ddh_rule_bg_color">#E000</color>

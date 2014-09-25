@@ -10,7 +10,7 @@ import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.graphics.AvoidXfermode.Mode;
 
-public class PrizeField {
+public class HintField {
 	
 	Rect mPrizeRect = new Rect(0, 0, 0, 0);
 	Rect mMsgBounds = new Rect(0, 0, 0, 0);
@@ -29,10 +29,10 @@ public class PrizeField {
 	int mTextX = 0;
 	int mTextY = 0;
 	
-	public PrizeField()
+	public HintField()
 	{
-		PrizeBG.setColor(Color.argb(200, 255, 255, 255));
-		WordPaint.setColor(Color.BLACK);
+		PrizeBG.setColor(Color.argb(200, 0, 0, 0));
+		WordPaint.setColor(Color.WHITE);
 		
 		LinePaint.setColor(Color.BLACK);
 		LinePaint.setStyle(Style.STROKE);

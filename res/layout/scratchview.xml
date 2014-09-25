@@ -1,48 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent" >
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/StartPage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/ddh_start_msg_bg_color"
         android:orientation="vertical"
         android:visibility="visible" >
 
-        <TextView
-            android:id="@+id/msg1"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="@string/get_ddh_ticket_start_msg1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/ddh_start_msg_color" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent" >
 
-        <TextView
-            android:id="@+id/msg2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/msg1"
-            android:gravity="center"
-            android:text="@string/get_ddh_ticket_start_msg2"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/ddh_start_msg_color" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/start_scratch_btn"
+                <TextView
+                    android:id="@+id/start_scratch_msg0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/get_ddh_ticket_start_msg1"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/ddh_start_msg_color"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/start_scratch_msg1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="@string/get_ddh_ticket_start_msg2"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/ddh_start_msg_color" />
+
+                <Button
+                    android:id="@+id/start_scratch_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#c2644c"
+                    android:text="@string/get_ddh_ticket_start_btn_text"
+                    android:textColor="@color/button_text"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:layout_below="@+id/msg2"
-            android:layout_margin="8dp"
-            android:background="@drawable/listview_button"
-            android:text="@string/get_ddh_ticket_start_btn_text"
-            android:textColor="@color/button_text" />
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent" >
+        </FrameLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/ddh_rule"
@@ -52,132 +74,331 @@
         android:background="@color/ddh_rule_bg_color"
         android:text="@string/get_ddh_ticket_rule"
         android:textAppearance="?android:attr/textAppearance"
-        android:textColor="@color/ddh_result_title_color" />
+        android:textColor="@color/ddh_result_title_color"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/infolayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/infoLang1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/infoLang2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/scratch_result_getit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/ddh_start_msg_bg_color"
+        android:orientation="vertical"
         android:visibility="invisible" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/result_msg1"
-            android:layout_centerHorizontal="true"
-            android:text="@string/get_ddh_ticket_result_title1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/ddh_result_title_color" />
-
-        <TextView
-            android:id="@+id/result_msg1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/result_msg2"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:text="test"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/ddh_result_title_color" />
-
-        <TextView
-            android:id="@+id/result_msg2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/result_msg3"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:text="test2"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/ddh_result_title_color" />
-
-        <TextView
-            android:id="@+id/result_msg3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/result_msg4"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:text="test2"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/ddh_result_title_color" />
-
-        <TextView
-            android:id="@+id/result_msg4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/giveup"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:text="test2"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/ddh_result_title_color" />
-
-        <Button
-            android:id="@+id/giveup"
+        <LinearLayout
+            android:id="@+id/LinearLayout1"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:layout_above="@+id/takeit"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="8dp"
-            android:background="@drawable/listview_button"
-            android:text="@string/get_ddh_ticket_result_btn_giveup"
-            android:textColor="@color/button_text" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/takeit"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/scratch_msg0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="刮一下"
+                        android:textColor="@android:color/white"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/scratch_msg1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="馬上獲得COUPON"
+                        android:textColor="@android:color/white"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+            </FrameLayout>
+        </LinearLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="8dp"
-            android:background="@drawable/listview_button"
-            android:text="@string/get_ddh_ticket_result_btn_takeit"
-            android:textColor="@color/button_text" />
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+        </FrameLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/scratch_result_getit_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ddh_start_msg_bg_color" >
+
+        <RelativeLayout
+            android:id="@+id/scratch_result_getit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" >
+
+            <TextView
+                android:id="@+id/result_takeit_msg0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/result_takeit_support"
+                android:layout_centerHorizontal="true"
+                android:text="@string/get_ddh_ticket_result_title1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/ddh_result_title_color"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/result_takeit_support"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/result_takeit_prize"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:text="test"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/ddh_result_title_color"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/result_takeit_prize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/result_takeit_msg1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:text="test2"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/ddh_result_title_color"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/result_takeit_msg1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/result_takeit_msg2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:text="test2"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/ddh_result_title_color"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/result_takeit_msg2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/giveup"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:text="test2"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/ddh_result_title_color"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/giveup"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_above="@+id/bottom_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="8dp"
+                android:background="@drawable/listview_button"
+                android:text="@string/get_ddh_ticket_result_btn_giveup"
+                android:textColor="@color/button_text"
+                android:visibility="gone" />
+
+            <FrameLayout
+                android:id="@+id/bottom_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true" >
+
+                <LinearLayout
+                    android:id="@+id/takeit_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/result_takeit_msg3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="前往"
+                        android:textColor="@color/ddh_result_title_color" />
+
+                    <Button
+                        android:id="@+id/result_takeit_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/listview_button"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:text="@string/get_ddh_ticket_result_btn_takeit"
+                        android:textColor="@color/button_text"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:id="@+id/result_takeit_msg4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="16dp"
+                        android:text="查看"
+                        android:textColor="@color/ddh_result_title_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/need_to_login_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:id="@+id/result_takeit_msg5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="只要簡單2個步驟，就能領取獎項"
+                        android:textColor="@color/ddh_result_title_color" />
+
+                    <Button
+                        android:id="@+id/result_login_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/listview_button"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:text="登入"
+                        android:textColor="@color/button_text"
+                        android:textSize="22sp" />
+
+                    <Button
+                        android:id="@+id/result_not_login_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/listview_button"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:text="放棄"
+                        android:textColor="@color/button_text"
+                        android:textSize="22sp"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/need_to_auth_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:id="@+id/result_takeit_msg6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="電話認証後，就能領取獎項"
+                        android:textColor="@color/ddh_result_title_color" />
+
+                    <Button
+                        android:id="@+id/result_auth_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/listview_button"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:text="認証"
+                        android:textColor="@color/button_text"
+                        android:textSize="22sp" />
+
+                    <Button
+                        android:id="@+id/result_not_auth_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/listview_button"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:text="放棄"
+                        android:textColor="@color/button_text"
+                        android:textSize="22sp" />
+                </LinearLayout>
+            </FrameLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/loading_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical" >
+
+            <ProgressBar
+                android:id="@+id/progressBar1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
+        </LinearLayout>
+
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/scratch_result_nothing"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/ddh_start_msg_bg_color"
-        android:visibility="visible" >
+        android:visibility="invisible" >
 
         <TextView
+            android:id="@+id/nothing_msg0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/result_msg4"
+            android:layout_above="@+id/nothing_msg1"
             android:layout_centerHorizontal="true"
             android:text="@string/get_ddh_ticket_result_title2"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/ddh_result_title_color" />
+            android:textColor="@color/ddh_result_title_color"
+            android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/result_msg4"
+            android:id="@+id/nothing_msg1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/ddh_close"
@@ -185,18 +406,23 @@
             android:layout_marginTop="8dp"
             android:text="@string/get_ddh_ticket_result_msg_keepit"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/ddh_result_title_color" />
+            android:textColor="@color/ddh_result_title_color"
+            android:textSize="22sp" />
 
         <Button
             android:id="@+id/ddh_close"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/button_height"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_margin="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/listview_button"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
             android:text="@string/get_ddh_ticket_result_close"
-            android:textColor="@color/button_text" />
+            android:textColor="@color/button_text"
+            android:textSize="22sp" />
     </RelativeLayout>
 
     <ImageView
@@ -206,6 +432,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:clickable="true"
-        android:src="@drawable/ddh_close" />
+        android:src="@drawable/ddh_close"
+        android:visibility="gone" />
 
 </FrameLayout>

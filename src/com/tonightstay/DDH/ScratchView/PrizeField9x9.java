@@ -44,7 +44,7 @@ public class PrizeField9x9 {
 		PrizeBG.setColor(Color.argb(200, 255, 255, 255));
 		WordPaint.setColor(Color.BLACK);
 		
-		LinePaint.setColor(Color.WHITE);
+		LinePaint.setColor(Color.BLACK);
 		LinePaint.setStyle(Style.STROKE);
 		LinePaint.setStrokeWidth(mStrokeWidth);
 		

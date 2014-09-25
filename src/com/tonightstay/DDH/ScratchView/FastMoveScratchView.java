@@ -64,6 +64,12 @@ public class FastMoveScratchView extends SurfaceView implements
 
 	OnFastMoveScratchListener mOnFastMoveScratchListener;
 
+	public void resetScratch()
+    {
+        if (mThread != null)
+            mThread.aniState = eAnimState.HoldDraw;
+    }
+	
 	public void startScratch()
 	{
 		if (mThread != null)
@@ -130,8 +136,7 @@ public class FastMoveScratchView extends SurfaceView implements
 			Bitmap ticket3,
 			Bitmap ticket4)
 	{
-	    Log.e("debug","setStratchTicket");
-	    
+	  
 		mLogoOffsetX = logoOffsetX;
 		mLogoOffsetY = logoOffsetY;
 
@@ -140,10 +145,13 @@ public class FastMoveScratchView extends SurfaceView implements
 		mStartBitmap2 = ticket2;
 		mStartBitmap3 = ticket3;
 		mStartBitmap4 = ticket4;
+		
+		 
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent me) {
+	    
 		if (mThread == null)
 			return false;
 
@@ -210,17 +218,16 @@ public class FastMoveScratchView extends SurfaceView implements
 	    
 		canvas.drawBitmap(
 				mStartBitmap1,
-				new Rect(0, 0, mStartBitmap1.getWidth(), mStartBitmap1
-						.getHeight()),
+				new Rect(0, 0, mStartBitmap1.getWidth(), mStartBitmap1.getHeight()),
 				new Rect(0, 0, getWidth(), getHeight()),
 				mBgPaint);
 
-		canvas.drawBitmap(
-				mLogo,
-				new Rect(0, 0, mLogo.getWidth(), mLogo.getHeight()),
-				new Rect(mLogoOffsetX, mLogoOffsetY, mLogoOffsetX
-						+ mLogo.getWidth(), mLogo.getHeight() + mLogoOffsetY),
-				mBgPaint);
+//		canvas.drawBitmap(
+//				mLogo,
+//				new Rect(0, 0, mLogo.getWidth(), mLogo.getHeight()),
+//				new Rect(mLogoOffsetX, mLogoOffsetY, mLogoOffsetX
+//						+ mLogo.getWidth(), mLogo.getHeight() + mLogoOffsetY),
+//				mBgPaint);
 	}
 
 	public void onSlowToFastDraw(Canvas canvas, long offsetTime) {
@@ -243,36 +250,33 @@ public class FastMoveScratchView extends SurfaceView implements
 
 		canvas.drawBitmap(
 				mStartBitmap1,
-				new Rect(0, 0, mStartBitmap1.getWidth(), mStartBitmap1
-						.getHeight()),
+				new Rect(0, 0, mStartBitmap1.getWidth(), mStartBitmap1.getHeight()),
 				new Rect((int) mSlowToFastOffY1, 0, (int) mSlowToFastOffY1
 						+ wholeWidth, getHeight()),
 				mBgPaint);
 
-		canvas.drawBitmap(
-				mLogo,
-				new Rect(0, 0, mLogo.getWidth(), mLogo.getHeight()),
-				new Rect((int) mSlowToFastOffY1 + mLogoOffsetX, mLogoOffsetY,
-						(int) mSlowToFastOffY1 + logoX + mLogoOffsetX, mLogo
-								.getHeight() + mLogoOffsetY),
-				mBgPaint);
+//		canvas.drawBitmap(
+//				mLogo,
+//				new Rect(0, 0, mLogo.getWidth(), mLogo.getHeight()),
+//				new Rect((int) mSlowToFastOffY1 + mLogoOffsetX, mLogoOffsetY,
+//						(int) mSlowToFastOffY1 + logoX + mLogoOffsetX, mLogo.getHeight() + mLogoOffsetY),
+//				mBgPaint);
 
 		canvas.drawBitmap(
 				mStartBitmap2,
-				new Rect(0, 0, mStartBitmap2.getWidth(), mStartBitmap2
-						.getHeight()),
+				new Rect(0, 0, mStartBitmap2.getWidth(), mStartBitmap2.getHeight()),
 				new Rect((int) mSlowToFastOffY2 + leftImageX1, 0,
 						(int) mSlowToFastOffY2 + leftImageX2, getHeight()),
 				mBgPaint);
 
-		canvas.drawBitmap(
-				mLogo,
-				new Rect(0, 0, mLogo.getWidth(), mLogo.getHeight()),
-				new Rect((int) mSlowToFastOffY2 + leftImageX1 + mLogoOffsetX,
-						mLogoOffsetY, (int) mSlowToFastOffY2 + leftImageX1
-								+ logoX + mLogoOffsetX, mLogo.getHeight()
-								+ mLogoOffsetY),
-				mBgPaint);
+//		canvas.drawBitmap(
+//				mLogo,
+//				new Rect(0, 0, mLogo.getWidth(), mLogo.getHeight()),
+//				new Rect((int) mSlowToFastOffY2 + leftImageX1 + mLogoOffsetX,
+//						mLogoOffsetY, (int) mSlowToFastOffY2 + leftImageX1
+//								+ logoX + mLogoOffsetX, mLogo.getHeight()
+//								+ mLogoOffsetY),
+//				mBgPaint);
 
 		if (mSlowToFastOffY1 <= -leftImageX1)
 		{
@@ -298,15 +302,13 @@ public class FastMoveScratchView extends SurfaceView implements
 
 		canvas.drawBitmap(
 				mBackgroundBitmap,
-				new Rect(0, 0, mBackgroundBitmap.getWidth(), mBackgroundBitmap
-						.getHeight()),
+				new Rect(0, 0, mBackgroundBitmap.getWidth(), mBackgroundBitmap.getHeight()),
 				new Rect((int) mOffY, 0, (int) mOffY + wholeWidth, getHeight()),
 				mBgPaint);
 
 		canvas.drawBitmap(
 				mBackgroundBitmap,
-				new Rect(0, 0, mBackgroundBitmap.getWidth(), mBackgroundBitmap
-						.getHeight()),
+				new Rect(0, 0, mBackgroundBitmap.getWidth(), mBackgroundBitmap.getHeight()),
 				new Rect((int) mOffY + wholeWidth, 0, (int) mOffY + wholeWidth
 						+ wholeWidth, getHeight()),
 				mBgPaint);
@@ -377,15 +379,15 @@ public class FastMoveScratchView extends SurfaceView implements
 						+ wholeWidth, getHeight()),
 				mBgPaint);
 
-		canvas.drawBitmap(
-				mLogo,
-				new Rect(0, 0, mLogo.getWidth(), mLogo.getHeight()),
-				new Rect(
-						(int) mFastToSlowOffY + mLogoOffsetX,
-						mLogoOffsetY,
-						(int) mFastToSlowOffY + mLogo.getWidth() + mLogoOffsetX,
-						mLogo.getHeight() + mLogoOffsetY),
-				mBgPaint);
+//		canvas.drawBitmap(
+//				mLogo,
+//				new Rect(0, 0, mLogo.getWidth(), mLogo.getHeight()),
+//				new Rect(
+//						(int) mFastToSlowOffY + mLogoOffsetX,
+//						mLogoOffsetY,
+//						(int) mFastToSlowOffY + mLogo.getWidth() + mLogoOffsetX,
+//						mLogo.getHeight() + mLogoOffsetY),
+//				mBgPaint);
 
 		canvas.drawBitmap(
 				mStartBitmap4,
@@ -395,14 +397,14 @@ public class FastMoveScratchView extends SurfaceView implements
 						(int) mFastToSlowOffY + wholeWidthX2, getHeight()),
 				mBgPaint);
 
-		canvas.drawBitmap(
-				mLogo,
-				new Rect(0, 0, mLogo.getWidth(), mLogo.getHeight()),
-				new Rect((int) mFastToSlowOffY + wholeWidth + mLogoOffsetX,
-						mLogoOffsetY, (int) mFastToSlowOffY + wholeWidth
-								+ mLogo.getWidth() + mLogoOffsetX, mLogo
-								.getHeight() + mLogoOffsetY),
-				mBgPaint);
+//		canvas.drawBitmap(
+//				mLogo,
+//				new Rect(0, 0, mLogo.getWidth(), mLogo.getHeight()),
+//				new Rect((int) mFastToSlowOffY + wholeWidth + mLogoOffsetX,
+//						mLogoOffsetY, (int) mFastToSlowOffY + wholeWidth
+//								+ mLogo.getWidth() + mLogoOffsetX, mLogo
+//								.getHeight() + mLogoOffsetY),
+//				mBgPaint);
 
 	}
 
@@ -461,15 +463,13 @@ public class FastMoveScratchView extends SurfaceView implements
 							mView.onHoldDraw(c);
 							break;
 						case SlowToFast:
-							mView.onSlowToFastDraw(c, System.nanoTime()
-									- nowTime);
+							mView.onSlowToFastDraw(c, System.nanoTime()	- nowTime);
 							break;
 						case VeryFast:
 							mView.onSDraw(c, System.nanoTime() - nowTime);
 							break;
 						case FastToSlow:
-							mView.onFastToSlowDraw(c, System.nanoTime()
-									- nowTime);
+							mView.onFastToSlowDraw(c, System.nanoTime()	- nowTime);
 							break;
 
 						}
