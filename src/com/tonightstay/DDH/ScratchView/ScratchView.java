@@ -27,7 +27,6 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
     Paint bgPaint = new Paint();
     Paint coverPaint = new Paint();
     Paint maskPaint = new Paint();
-
     ArrayList<Point> points = new ArrayList<Point>();
 
     private WScratchViewThread mThread;
