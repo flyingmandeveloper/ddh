@@ -1,10 +1,8 @@
 package com.tonightstay.DDH.ScratchView;
 
-import java.lang.annotation.Retention;
 import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
 import flyingman.utility.DeviceTool.DeviceTools;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -240,11 +238,8 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
             mPrize1_1.setMessage(prize1_1);
             int sz = mPrize1_1.testTextSize();
             mPrize1_1.setTextSize(sz);
-            Log.e("debug", "sz "+sz);
         }
 
-        Log.e("debug", "prize1_1 "+prize1_1);
-        
         mPrize2.setMessage(prize2);
         textSize = Math.min(mPrize2.testTextSize(), textSize);
 
@@ -269,7 +264,6 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
             mPrize1_1.setMessage(prize1_1);
             int sz = mPrize1_1.testTextSize();
             mPrize1_1.setTextSize(sz);
-            Log.e("debug", "sz "+sz);
         }
 
         mPrize2.setMessage(prize2);
@@ -557,7 +551,6 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
 
-        Log.e("debug", "surfaceChanged ");
 
         try {
             mCoverBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
@@ -601,15 +594,12 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
         mThread = new WScratchViewThread(getHolder(), this);
         mThread.setRunning(true);
         mThread.start();
-        Log.e("debug", "surfaceCreated ");
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder arg0) {
         boolean retry = true;
         mThread.setRunning(false);
-
-        Log.e("debug", "surfaceDestroyed ");
 
         if (mCoverBitmap != null)
         {
@@ -672,7 +662,7 @@ public class ScratchView extends SurfaceView implements SurfaceHolder.Callback {
                     if (mCountScratchPercent == true)
                     {
                         mCountScratchPercent = false;
-                        if (countPercentOfFilled(40, 40, 60))
+                        if (countPercentOfFilled(30, 30, 50))
                         {
                             mCanShowPrize = true;
                         }

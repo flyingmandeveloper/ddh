@@ -176,16 +176,12 @@ OnFilledPercentUpdateListener{
         // TODO Auto-generated method stub
         super.onResume();
 
-        Log.e("debug","onResume mFastMoveScratchView View("+View.VISIBLE+") v("+mFastMoveScratchView.getVisibility()+")");
-        
     }
 
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-        
-        Log.e("debug","onDestroy");
         
         for (int i =0;i<mBGCount;++i)
         {
@@ -222,9 +218,6 @@ OnFilledPercentUpdateListener{
     void initUI()
     {
         
-        Log.e("debug","BaseScratchTicketActivity initUI ");
-        
-           
     	ddhSmallPictureSize = DeviceTools.getPixelFromDip(this, 50);
     	
         ddhSmallPicture[0] = loadImageFromResource(R.drawable.ddh_p1);
@@ -375,8 +368,6 @@ OnFilledPercentUpdateListener{
     //開始進行選刮刮券
     public void showRandomAnimation()
     {
-        Log.e("debug","showRandomAnimation");
-        
         mStartPageLayout.setVisibility(View.INVISIBLE);
         mFastMoveScratchView.startScratch();
     }
@@ -384,7 +375,6 @@ OnFilledPercentUpdateListener{
     //秀未刮開的刮刮樂
     public void showScrathTicket()
     {
-        Log.e("debug","showScrathTicket");
         mFastMoveScratchView.setVisibility(View.INVISIBLE);  
         mScratchView.setVisibility(View.VISIBLE); 	
         mBeforeScratchedLayout.setVisibility(View.VISIBLE);
@@ -394,8 +384,6 @@ OnFilledPercentUpdateListener{
     //當快速移動時，觸碰螢幕後抽中一張卡時
     @Override
     public void OnPickScratchFinish() {
-        
-        Log.e("debug","OnPickScratchFinish ");
         
         mScratchView.setVisibility(View.VISIBLE);
         mBeforeScratchedLayout.setVisibility(View.VISIBLE);
